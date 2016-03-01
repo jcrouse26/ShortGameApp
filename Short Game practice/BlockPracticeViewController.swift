@@ -10,7 +10,7 @@ import UIKit
 
 class BlockPracticeViewController: UIViewController {
 
-    var timerCount = totalTime / 10
+    //var timerCount = totalTime / 10
     var timerRunning = false
     var timer = NSTimer()
     var practiceHasBegun = false
