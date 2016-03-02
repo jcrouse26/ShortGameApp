@@ -5,17 +5,14 @@
 //  Created by Jason Crouse on 2/15/16.
 //  Copyright © 2016 Jason Crouse. All rights reserved.
 //
-
+import AVFoundation
 import UIKit
 
-var lieTypeOn = [
-    "light rough": true,
-    "deep rough": true,
-    "fairway": true,
-    "bunker": true
-]
-
 class RandomPracticeViewController: UIViewController {
+    
+    // MARK: - Variables
+    
+    let speechSynthesizer = AVSpeechSynthesizer()
     
     // Timer
     var timerCount = totalTime * 8 / 10
@@ -60,8 +57,6 @@ class RandomPracticeViewController: UIViewController {
     @IBOutlet weak var yardsLabel: UILabel!
     @IBOutlet weak var lieTypeLabel: UILabel!
     
-    let lieTypes = ["light rough", "deep rough", "fairway", "bunker"]
-    
     
     @IBAction func generateButton(sender: AnyObject) {
         let numYards = Int(arc4random_uniform((UInt32(max) - UInt32(min)) + 1)) + min
@@ -75,10 +70,15 @@ class RandomPracticeViewController: UIViewController {
         }
         
         lieTypeLabel.text = lieTypes[Int(randomLie)]
+        
+        // Attempt to do audio shit
+        
+        let speechUtterance = AVSpeechUtterance(string: String(numYards) + "yards, " + lieTypes[Int(randomLie)])
+        
+        speechSynthesizer.speakUtterance(speechUtterance)
+        
     }
     
-    // Shot Selection Feature
-    // .....
     
     // Transition from Settings Page
     @IBAction func unwindToRandomPractice(unwindSeugue: UIStoryboardSegue) {

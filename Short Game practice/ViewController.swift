@@ -7,7 +7,19 @@
 //
 
 import UIKit
+
+// MARK: - Global Variables
+
 var totalTime = 45 * 60
+var lieTypeOn = [
+    "light rough": true,
+    "deep rough": true,
+    "fairway": true,
+    "bunker": true
+]
+let lieTypes = ["light rough", "deep rough", "fairway", "bunker"]
+
+// Main Page View Controller
 
 class ViewController: UIViewController {
     
