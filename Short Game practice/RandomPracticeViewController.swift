@@ -7,12 +7,17 @@
 //
 import AVFoundation
 import UIKit
+import MediaPlayer
 
-class RandomPracticeViewController: UIViewController {
+class RandomPracticeViewController: UIViewController, AVAudioPlayerDelegate {
     
     // MARK: - Variables
     
+    // Speech
     let speechSynthesizer = AVSpeechSynthesizer()
+    
+    // Remote Control
+    var testPlayer: AVAudioPlayer? = nil
     
     // Timer
     var timerCount = totalTime * 8 / 10
@@ -22,6 +27,10 @@ class RandomPracticeViewController: UIViewController {
     
     @IBOutlet var countDownLabel: UILabel!
     @IBOutlet weak var timerButton: UIButton!
+    
+    // MARK: - Methods and Functions
+    
+    // Timer
     
     func counting() {
         timerCount -= 1
@@ -33,6 +42,22 @@ class RandomPracticeViewController: UIViewController {
             countDownLabel.text = String(minutes) + ":" + String(seconds)
         }
     }
+    
+    // Remote Control
+    
+    func loadSound(filename: NSString) -> AVAudioPlayer {
+        let url = NSBundle.mainBundle().URLForResource(filename as String, withExtension: "caf")
+        var error: NSError? = nil
+        let player = AVAudioPlayer(contentsOfURL: url!)
+        if error != nil {
+            print("Error loading \(url): \(error?.localizedDescription)")
+        } else {
+            player.prepareToPlay()
+        }
+        return player
+    }
+    
+    
     
     @IBAction func startButton(sender: AnyObject) {
         
@@ -91,7 +116,7 @@ class RandomPracticeViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        print(practiceHasBegun)
+        
         let minutes = timerCount / 60
         let seconds = timerCount % 60
         if seconds < 10 {
@@ -101,7 +126,6 @@ class RandomPracticeViewController: UIViewController {
         }
         
         if timerRunning == true {
-            print("hello")
             timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "counting", userInfo: nil, repeats: true)
             timerButton.setTitle("Pause", forState: .Normal)
         } else {
@@ -113,6 +137,9 @@ class RandomPracticeViewController: UIViewController {
         if practiceHasBegun == false {
             timerButton.setTitle("Begin Practice", forState: .Normal)
         }
+        // Headphones
+        self.testPlayer
+        
         
     }
 
@@ -132,10 +159,6 @@ class RandomPracticeViewController: UIViewController {
             DestViewController.maxYards = max
             DestViewController.time = timerCount
             DestViewController.timerRunning = timerRunning
-            //DestViewController.lightRoughOn = lightRoughOn
-            //DestViewController.deepRoughOn = deepRoughOn
-            //DestViewController.fairwayOn = fairwayOn
-            //DestViewController.bunkerOn = bunkerOn
             DestViewController.practiceHasBegun = practiceHasBegun
         }
         
