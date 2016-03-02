@@ -73,7 +73,7 @@ class RandomPracticeViewController: UIViewController {
         
         // Attempt to do audio shit
         
-        let speechUtterance = AVSpeechUtterance(string: String(numYards) + "yards, " + lieTypes[Int(randomLie)])
+        let speechUtterance = AVSpeechUtterance(string: String(numYards) + "yards, from the " + lieTypes[Int(randomLie)])
         
         speechSynthesizer.speakUtterance(speechUtterance)
         
